@@ -5,8 +5,6 @@ import {Logo} from './components/logo/Logo'
 import {ImageLinkForm} from './components/image-link-form/ImageLinkForm'
 import {Rank} from './components/rank/Rank'
 import Particles from 'react-tsparticles'
-// @ts-ignore
-import Clarifai from 'clarifai'
 import {FaceRecognition} from './components/face-recognition/FaceRecognition'
 import {SignIn} from './components/sign-in/SignIn'
 import {Register} from './components/register/Register'
@@ -90,10 +88,6 @@ const particlesParams = {
     detectRetina: true
 }
 
-const app = new Clarifai.App({
-    apiKey: '8f2e5f670c4743d5ae1f693e688c8de7'
-})
-
 const initState = {
     route: 'signin',
     user: {
@@ -128,13 +122,13 @@ function App() {
 
     function handleSubmit() {
         setImageUrl(input)
-        fetch('http://localhost:3001/imageUrl', {
+        fetch('https://ansha-smart-brain-api.herokuapp.com/imageUrl', {
             method: 'POST',
             headers:{'Content-Type': 'application/json'},
             body: JSON.stringify({input})
         }).then(resp => resp.json()).then((response: any) => {
             if(response){
-                fetch('http://localhost:3001/image', {
+                fetch('https://ansha-smart-brain-api.herokuapp.com/image', {
                     method: 'PUT',
                     headers:{'Content-Type': 'application/json'},
                     body: JSON.stringify({id:user?.id})

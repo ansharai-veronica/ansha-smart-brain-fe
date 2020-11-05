@@ -23,7 +23,7 @@ function Register({onRouteChange, loadUser}: IRegister) {
     }
 
     function handleSubmit() {
-        fetch('http://localhost:3001/register', {
+        fetch('https://ansha-smart-brain-api.herokuapp.com/register', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({name, email, password})

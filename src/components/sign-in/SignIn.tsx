@@ -18,7 +18,7 @@ function SignIn({onRouteChange,loadUser}: ISignIn) {
     }
 
     function handleSubmit() {
-        fetch('http://localhost:3001/signin', {
+        fetch('https://ansha-smart-brain-api.herokuapp.com/signin', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({email, password})

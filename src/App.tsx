@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import './App.css'
 import {Navigation} from './components/navigation/Navigation'
 import {Logo} from './components/logo/Logo'
@@ -8,96 +8,20 @@ import Particles from 'react-tsparticles'
 import {FaceRecognition} from './components/face-recognition/FaceRecognition'
 import {SignIn} from './components/sign-in/SignIn'
 import {Register} from './components/register/Register'
+import {particlesParams} from './particles'
 
-const particlesParams = {
-    background: {
-        color: {
-            value: '#0d47a1'
-        }
-    },
-    fpsLimit: 60,
-    interactivity: {
-        detectsOn: 'canvas',
-        events: {
-            onClick: {
-                enable: true,
-                mode: 'push'
-            },
-            onHover: {
-                enable: true,
-                mode: 'repulse'
-            },
-            resize: true
-        },
-        modes: {
-            bubble: {
-                distance: 400,
-                duration: 2,
-                opacity: 0.8,
-                size: 40
-            },
-            push: {
-                quantity: 4
-            },
-            repulse: {
-                distance: 200,
-                duration: 0.4
-            }
-        }
-    },
-    particles: {
-        color: {
-            value: '#ffffff'
-        },
-        links: {
-            color: '#ffffff',
-            distance: 150,
-            enable: true,
-            opacity: 0.5,
-            width: 1
-        },
-        collisions: {
-            enable: true
-        },
-        move: {
-            direction: 'none',
-            enable: true,
-            outMode: 'bounce',
-            random: false,
-            speed: 6,
-            straight: false
-        },
-        number: {
-            density: {
-                enable: true,
-                value_area: 800
-            },
-            value: 80
-        },
-        opacity: {
-            value: 0.5
-        },
-        shape: {
-            type: 'circle'
-        },
-        size: {
-            random: true,
-            value: 5
-        }
-    },
-    detectRetina: true
-}
 
 const initState = {
     route: 'signin',
     user: {
         id: '',
-        name:'',
-        email:'',
+        name: '',
+        email: '',
         entries: 0,
         joined: ''
     }
 }
+
 function App() {
     const [input, setInput] = useState<string>('')
     const [imageUrl, setImageUrl] = useState<any>(null)
@@ -106,16 +30,15 @@ function App() {
     const {route, user} = appState
 
 
-
-
-    function onRouteChange(route: string){
+    function onRouteChange(route: string) {
         setImageUrl(null)
         setAppState((prevState) => ({...prevState, route}))
     }
 
-    function loadUser(user: any){
-        setAppState((prevState) => ({route: 'home',user}))
+    function loadUser(user: any) {
+        setAppState((prevState) => ({route: 'home', user}))
     }
+
     function handleInputChange(e: any) {
         setInput(e.target.value)
     }
@@ -124,15 +47,18 @@ function App() {
         setImageUrl(input)
         fetch('https://ansha-smart-brain-api.herokuapp.com/imageUrl', {
             method: 'POST',
-            headers:{'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({input})
         }).then(resp => resp.json()).then((response: any) => {
-            if(response){
+            if (response) {
                 fetch('https://ansha-smart-brain-api.herokuapp.com/image', {
                     method: 'PUT',
-                    headers:{'Content-Type': 'application/json'},
-                    body: JSON.stringify({id:user?.id})
-                }).then(resp => resp.json()).then((count: number) =>setAppState((prevState) =>({...prevState, user:{...prevState.user, entries: count}})) )
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({id: user?.id})
+                }).then(resp => resp.json()).then((count: number) => setAppState((prevState) => ({
+                    ...prevState,
+                    user: {...prevState.user, entries: count}
+                })))
                 calculateFaceLocation(response)
 
             }
@@ -156,8 +82,7 @@ function App() {
     }
 
     return (
-        <div className="App">
-
+        <div>
             <Particles
                 className='particles'
                 id="tsparticles"

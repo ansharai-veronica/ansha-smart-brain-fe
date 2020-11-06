@@ -9,6 +9,7 @@ import {FaceRecognition} from './components/face-recognition/FaceRecognition'
 import {SignIn} from './components/sign-in/SignIn'
 import {Register} from './components/register/Register'
 import {particlesParams} from './particles'
+import {customFetch} from './utils'
 
 
 const initState = {
@@ -45,22 +46,13 @@ function App() {
 
     function handleSubmit() {
         setImageUrl(input)
-        fetch('https://ansha-smart-brain-api.herokuapp.com/imageUrl', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({input})
-        }).then(resp => resp.json()).then((response: any) => {
+        customFetch('imageUrl','POST',undefined,{input}).then((response: any) => {
             if (response) {
-                fetch('https://ansha-smart-brain-api.herokuapp.com/image', {
-                    method: 'PUT',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({id: user?.id})
-                }).then(resp => resp.json()).then((count: number) => setAppState((prevState) => ({
+                customFetch('image','PUT',undefined,{id: user?.id}).then((count: number) => setAppState((prevState) => ({
                     ...prevState,
                     user: {...prevState.user, entries: count}
                 })))
                 calculateFaceLocation(response)
-
             }
         }).catch((err: any) => {
             console.log(err)

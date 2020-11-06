@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import {customFetch} from '../../utils'
 
 interface IRegister {
     onRouteChange: any
@@ -23,13 +24,7 @@ function Register({onRouteChange, loadUser}: IRegister) {
     }
 
     function handleSubmit() {
-        fetch('https://ansha-smart-brain-api.herokuapp.com/register', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({name, email, password})
-        }).then((response) => response.json())
-            .then((user: any) => {
-                console.log(user,'user')
+        customFetch('register','POST',undefined,{name, email, password}).then((user: any) => {
                 if (typeof user === 'object') {
                     loadUser(user)
                 }else{

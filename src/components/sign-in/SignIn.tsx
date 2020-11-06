@@ -1,11 +1,12 @@
 import React, {useState} from 'react'
+import {customFetch} from '../../utils'
 
 interface ISignIn {
     onRouteChange: any
     loadUser: any
 }
 
-function SignIn({onRouteChange,loadUser}: ISignIn) {
+function SignIn({onRouteChange, loadUser}: ISignIn) {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
@@ -18,17 +19,11 @@ function SignIn({onRouteChange,loadUser}: ISignIn) {
     }
 
     function handleSubmit() {
-        fetch('https://ansha-smart-brain-api.herokuapp.com/signin', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({email, password})
-        }).then((response) => response.json()).then((u: any ) =>{
-            if(typeof u =='object'){
+        customFetch('signin', 'POST', undefined, {email, password}).then((u: any) => {
+            if (typeof u == 'object') {
                 loadUser(u)
             }
         })
-        console.log(email, password)
-
     }
 
     return (

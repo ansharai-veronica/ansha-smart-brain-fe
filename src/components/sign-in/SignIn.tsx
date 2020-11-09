@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import {customFetch} from '../../utils'
+import {useHandleChangeHook} from '../../hooks/handleChangeHook'
 
 interface ISignIn {
     onRouteChange: any
@@ -7,16 +8,9 @@ interface ISignIn {
 }
 
 function SignIn({onRouteChange, loadUser}: ISignIn) {
-    const [email, setEmail] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
+    const {fields, handleFields} = useHandleChangeHook({email:'',password:''})
+    const {email,password} = fields
 
-    function handleEmailChange(e: any) {
-        setEmail(e.target.value)
-    }
-
-    function handlePasswordChange(e: any) {
-        setPassword(e.target.value)
-    }
 
     function handleSubmit() {
         customFetch('signin', 'POST', undefined, {email, password}).then((u: any) => {
@@ -33,18 +27,18 @@ function SignIn({onRouteChange, loadUser}: ISignIn) {
                     <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                         <legend className="f1 fw6 ph0 mh0">Sign In</legend>
                         <div className="mt3">
-                            <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
+                            <label className="db fw6 lh-copy f6" htmlFor="email">Email</label>
                             <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                                    type="email"
                                    value={email}
-                                   onChange={handleEmailChange}
-                                   name="email-address" id="email-address"/>
+                                   onChange={handleFields}
+                                   name="email" id="email"/>
                         </div>
                         <div className="mv3">
                             <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
                             <input className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                                    value={password}
-                                   onChange={handlePasswordChange}
+                                   onChange={handleFields}
                                    type="password" name="password" id="password"/>
                         </div>
                     </fieldset>

@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import {customFetch} from '../../utils'
+import {useHandleChangeHook} from '../../hooks/handleChangeHook'
 
 interface IRegister {
     onRouteChange: any
@@ -7,21 +8,8 @@ interface IRegister {
 }
 
 function Register({onRouteChange, loadUser}: IRegister) {
-    const [email, setEmail] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
-    const [name, setName] = useState<string>('')
-
-    function handleEmailChange(e: any) {
-        setEmail(e.target.value)
-    }
-
-    function handlePasswordChange(e: any) {
-        setPassword(e.target.value)
-    }
-
-    function handleNameChange(e: any) {
-        setName(e.target.value)
-    }
+    const {fields, handleFields} = useHandleChangeHook({email:'',password:'',name:''})
+    const {email,password, name} = fields
 
     function handleSubmit() {
         customFetch('register','POST',undefined,{name, email, password}).then((user: any) => {
@@ -47,22 +35,22 @@ function Register({onRouteChange, loadUser}: IRegister) {
                             <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                                    type="text"
                                    value={name}
-                                   onChange={handleNameChange}
+                                   onChange={handleFields}
                                    name="name" id="name"/>
                         </div>
                         <div className="mt3">
-                            <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
+                            <label className="db fw6 lh-copy f6" htmlFor="email">Email</label>
                             <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                                    type="email"
                                    value={email}
-                                   onChange={handleEmailChange}
-                                   name="email-address" id="email-address"/>
+                                   onChange={handleFields}
+                                   name="email" id="email"/>
                         </div>
                         <div className="mv3">
                             <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
                             <input className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                                    value={password}
-                                   onChange={handlePasswordChange}
+                                   onChange={handleFields}
                                    type="password" name="password" id="password"/>
                         </div>
                     </fieldset>

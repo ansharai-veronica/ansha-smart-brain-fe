@@ -1,16 +1,14 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import {customFetch} from '../../utils'
 import {useHandleChangeHook} from '../../hooks/handleChangeHook'
+import {UserDetailsContext} from '../../App'
 
-interface ISignIn {
-    onRouteChange: any
-    loadUser: any
-}
+interface ISignIn {}
 
-function SignIn({onRouteChange, loadUser}: ISignIn) {
+function SignIn() {
     const {fields, handleFields} = useHandleChangeHook({email:'',password:''})
     const {email,password} = fields
-
+    const {loadUser,route,onRouteChange} = useContext(UserDetailsContext)
 
     function handleSubmit() {
         customFetch('signin', 'POST', undefined, {email, password}).then((u: any) => {
@@ -21,6 +19,8 @@ function SignIn({onRouteChange, loadUser}: ISignIn) {
     }
 
     return (
+        <>
+            {route === 'signin' ?
         <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
             <main className="pa4 black-80">
                 <div className="measure">
@@ -54,6 +54,10 @@ function SignIn({onRouteChange, loadUser}: ISignIn) {
                 </div>
             </main>
         </article>
+            : undefined
+            }
+
+        </>
     )
 }
 

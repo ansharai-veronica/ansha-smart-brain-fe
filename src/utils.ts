@@ -9,7 +9,7 @@ function customFetch(endpoint: string = '', method: string | undefined  = 'GET',
             ...defaultHeaders,
             ...headers
         },
-        body: method === 'GET' ? '' :  JSON.stringify({payload})
+        body: method === 'GET' ? '' :  JSON.stringify(payload)
     }).then(response => response.json())
 }
 

@@ -5,7 +5,7 @@ interface IRank{
 }
 function Rank({user:{name,entries}}:IRank){
     return (
-        <div>
+        <div className='center'>
          <div className="white f3">
              {name}, your current rank is...
          </div>

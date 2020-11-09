@@ -9,7 +9,7 @@ import {useHandleImage} from './hooks/handleImage'
 
 
 const initState = {
-    route: 'home',
+    route: 'signin',
     user: {
         id: '',
         name: '',

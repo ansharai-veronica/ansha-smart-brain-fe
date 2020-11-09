@@ -73,7 +73,7 @@ function Register() {
                         </div>
                     </main>
                 </article>
-                : <UserDetails/>
+                :   route ==='home' && <UserDetails/>
             }
         </>
     )
